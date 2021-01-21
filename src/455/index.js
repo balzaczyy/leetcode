@@ -1,3 +1,5 @@
+import { group } from "../utils.js";
+
 /**
  * @param {number[]} g
  * @param {number[]} s
@@ -22,18 +24,6 @@ const findContentChildren = function (g, s) {
   }
   return ans;
 };
-
-export function group(arr, n) {
-  const res = [];
-  for (let i = 0; i < arr.length; i += n) {
-    const g = [];
-    for (let j = 0; j < n; j++) {
-      g.push(arr[i + j]);
-    }
-    res.push(g);
-  }
-  return res;
-}
 
 export default function run(input) {
   return group(input.map(JSON.parse), 2)

@@ -1,4 +1,4 @@
-import { group } from "../455/index.js";
+import { group } from "../utils.js";
 
 /**
  * @param {number} n
