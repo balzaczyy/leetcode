@@ -23,7 +23,7 @@ const findContentChildren = function (g, s) {
   return ans;
 };
 
-function group(arr, n) {
+export function group(arr, n) {
   const res = [];
   for (let i = 0; i < arr.length; i += n) {
     const g = [];
@@ -38,5 +38,5 @@ function group(arr, n) {
 export default function run(input) {
   return group(input.map(JSON.parse), 2)
     .map(([g, s]) => findContentChildren(g, s))
-    .map(JSON.stringify);
+    .map((v) => JSON.stringify(v));
 }
