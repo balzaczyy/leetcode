@@ -1,4 +1,4 @@
-const re = /[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/;
+const re = /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/;
 
 /**
  * @param {string} s
@@ -9,5 +9,5 @@ const isNumber = function (s) {
 };
 
 export default function run(input) {
-  return input.map(isNumber).map(String);
+  return input.map(JSON.parse).map(isNumber).map(String);
 }
