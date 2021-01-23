@@ -32,14 +32,25 @@ const leastOpsExpressTarget = function (x, target) {
   const ratio = (i) => (i === 0 ? 2 : i);
   const numOrders = orders.length;
   for (let i = 0; i < numOrders; i++) {
-    if (orders[i] * 2 <= x) {
+    if (orders[i] * 2 < x) {
       continue;
     }
     const d = orders[i] * 2 - x;
-    const diff = d * ratio(i) - ratio(i + 1);
+    let diff = d * ratio(i) - ratio(i + 1);
+    let j = i + 1;
+    while (orders[j] + 1 === x && j < orders.length) {
+      diff += x * ratio(j) - ratio(j + 1);
+      j++;
+    }
     if (diff > 0) {
       orders[i] = x - orders[i];
       orders[i + 1] = (orders[i + 1] || 0) + 1;
+      for (let k = i + 1; k < j; k++) {
+        if (orders[k] === x) {
+          orders[k] = 0;
+          orders[k + 1] = (orders[k + 1] || 0) + 1;
+        }
+      }
     }
   }
   console.log("after:", orders);
