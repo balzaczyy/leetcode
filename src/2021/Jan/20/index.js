@@ -2,28 +2,28 @@
  * @param {string} s
  * @return {boolean}
  */
-const isValid = function(s) {
+const isValid = function (s) {
   const stack = [];
 
   for (const ch of s) {
     switch (ch) {
-      case '(':
-      case '{':
-      case '[':
+      case "(":
+      case "{":
+      case "[":
         stack.push(ch);
         break;
-      case ')':
-        if (stack.pop() !== '(') {
+      case ")":
+        if (stack.pop() !== "(") {
           return false;
         }
         break;
-      case '}':
-        if (stack.pop() !== '{') {
+      case "}":
+        if (stack.pop() !== "{") {
           return false;
         }
         break;
-      case ']':
-        if (stack.pop() !== '[') {
+      case "]":
+        if (stack.pop() !== "[") {
           return false;
         }
         break;
@@ -33,5 +33,5 @@ const isValid = function(s) {
 };
 
 export default function run(input) {
-  return input.map(isValid).map(v => String(v));
+  return input.map(isValid).map((v) => String(v));
 }
