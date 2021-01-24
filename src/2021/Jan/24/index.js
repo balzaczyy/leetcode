@@ -10,7 +10,26 @@
  * @return {ListNode}
  */
 const mergeKLists = function (lists) {
-  return new ListNode(100);
+  let next = null,
+    root = null;
+  function push(val) {
+    const node = new ListNode(val);
+    if (root === null) {
+      root = next = node;
+    } else {
+      next.next = node;
+      next = node;
+    }
+  }
+
+  let pipes = lists.filter(Boolean);
+  while (pipes.length > 0) {
+    pipes.sort((a, b) => a.val - b.val);
+    push(pipes[0].val);
+    pipes[0] = pipes[0].next;
+    pipes = pipes.filter(Boolean);
+  }
+  return root;
 };
 
 function ListNode(val, next) {
@@ -19,7 +38,7 @@ function ListNode(val, next) {
 }
 
 function arrayToListNode(arr) {
-  let next = undefined;
+  let next = null;
   for (let i = arr.length - 1; i >= 0; i--) {
     next = new ListNode(arr[i], next);
   }
