@@ -6,6 +6,21 @@ import { group } from "../../../utils.js";
  * @return {boolean}
  */
 const kLengthApart = function (nums, k) {
+  if (k === 0) {
+    return true;
+  }
+
+  let count = nums.length;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 1) {
+      if (count < k) {
+        return false;
+      }
+      count = 0;
+    } else {
+      count++;
+    }
+  }
   return true;
 };
 
