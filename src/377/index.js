@@ -6,7 +6,16 @@ import { group } from "../utils.js";
  * @return {number}
  */
 const combinationSum4 = function (nums, target) {
-  return 0;
+  nums.sort((a, b) => a - b);
+  const f = Array(target + 1);
+  f[0] = 1;
+  for (let i = 1; i <= target; i++) {
+    f[i] = 0;
+    for (let j = 0; j < nums.length && nums[j] <= i; j++) {
+      f[i] += f[i - nums[j]];
+    }
+  }
+  return f[target];
 };
 
 export default function run(input) {
