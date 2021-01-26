@@ -22,26 +22,24 @@ const regionsBySlashes = function (grid) {
 
         // BFS to color the area
         const q = [{ row: i, col: j, sli: k }];
+        function visit(row, col, sli) {
+          if (!colors[id(row, col, sli)]) {
+            colors[id(row, col, sli)] = next;
+            q.push({ row, col, sli });
+          }
+        }
         function tryMoveLeft(row, col) {
           if (col > 0) {
             switch (grid[row][col - 1]) {
               case "/":
-                if (!colors[id(row, col - 1, DOWN)]) {
-                  q.push({ row, col: col - 1, sli: DOWN });
-                }
+                visit(row, col - 1, DOWN);
                 break;
               case "\\":
-                if (!colors[id(row, col - 1, UP)]) {
-                  q.push({ row, col: col - 1, sli: UP });
-                }
+                visit(row, col - 1, UP);
                 break;
               default:
-                if (!colors[id(row, col - 1, DOWN)]) {
-                  q.push({ row, col: col - 1, sli: DOWN });
-                }
-                if (!colors[id(row, col - 1, UP)]) {
-                  q.push({ row, col: col - 1, sli: UP });
-                }
+                visit(row, col - 1, DOWN);
+                visit(row, col - 1, UP);
                 break;
             }
           }
@@ -50,79 +48,31 @@ const regionsBySlashes = function (grid) {
           if (col < n - 1) {
             switch (grid[row][col + 1]) {
               case "/":
-                if (!colors[id(row, col + 1, UP)]) {
-                  q.push({ row, col: col + 1, sli: UP });
-                }
+                visit(row, col + 1, UP);
                 break;
               case "\\":
-                if (!colors[id(row, col + 1, DOWN)]) {
-                  q.push({ row, col: col + 1, sli: DOWN });
-                }
+                visit(row, col + 1, DOWN);
                 break;
               default:
-                if (!colors[id(row, col + 1, UP)]) {
-                  q.push({ row, col: col + 1, sli: UP });
-                }
-                if (!colors[id(row, col + 1, DOWN)]) {
-                  q.push({ row, col: col + 1, sli: DOWN });
-                }
+                visit(row, col + 1, DOWN);
+                visit(row, col + 1, UP);
                 break;
             }
           }
         }
         function tryMoveUp(row, col) {
           if (row > 0) {
-            switch (grid[row - 1][col]) {
-              case "/":
-                if (!colors[id(row - 1, col, DOWN)]) {
-                  q.push({ row: row - 1, col, sli: DOWN });
-                }
-                break;
-              case "\\":
-                if (!colors[id(row - 1, col, DOWN)]) {
-                  q.push({ row: row - 1, col, sli: DOWN });
-                }
-                break;
-              default:
-                if (!colors[id(row - 1, col, DOWN)]) {
-                  q.push({ row: row - 1, col, sli: DOWN });
-                }
-                if (!colors[id(row - 1, col, DOWN)]) {
-                  q.push({ row: row - 1, col, sli: DOWN });
-                }
-                break;
-            }
+            visit(row - 1, col, DOWN);
           }
         }
         function tryMoveDown(row, col) {
           if (row < n - 1) {
-            switch (grid[row + 1][col]) {
-              case "/":
-                if (!colors[id(row + 1, col, UP)]) {
-                  q.push({ row: row + 1, col, sli: UP });
-                }
-                break;
-              case "\\":
-                if (!colors[id(row + 1, col, UP)]) {
-                  q.push({ row: row + 1, col, sli: UP });
-                }
-                break;
-              default:
-                if (!colors[id(row + 1, col, UP)]) {
-                  q.push({ row: row + 1, col, sli: UP });
-                }
-                if (!colors[id(row + 1, col, UP)]) {
-                  q.push({ row: row + 1, col, sli: UP });
-                }
-                break;
-            }
+            visit(row + 1, col, UP);
           }
         }
         function trySameGrid(row, col, sli) {
           const other = (sli + 1) % 2;
-          if (!colors[id(row, col, other)]) {
-            q.push({ row, col, sli: other });
-          }
+          visit(row, col, other);
         }
 
         while (q.length > 0) {
