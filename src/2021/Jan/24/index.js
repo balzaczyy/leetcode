@@ -32,12 +32,12 @@ const mergeKLists = function (lists) {
   return root;
 };
 
-function ListNode(val, next) {
+export function ListNode(val, next) {
   this.val = val === undefined ? 0 : val;
   this.next = next === undefined ? null : next;
 }
 
-function arrayToListNode(arr) {
+export function arrayToListNode(arr) {
   let next = null;
   for (let i = arr.length - 1; i >= 0; i--) {
     next = new ListNode(arr[i], next);
