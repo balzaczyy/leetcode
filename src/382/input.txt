@@ -1,2 +1,6 @@
 ["Solution", "getRandom", "getRandom", "getRandom", "getRandom", "getRandom"]
 [[[1, 2, 3]], [], [], [], [], []]
+["Solution", "getRandom", "getRandom", "getRandom", "getRandom", "getRandom"]
+[[[1, 2, 4]], [], [], [], [], []]
+["Solution", "getRandom", "getRandom", "getRandom", "getRandom", "getRandom"]
+[[[1]], [], [], [], [], []]
