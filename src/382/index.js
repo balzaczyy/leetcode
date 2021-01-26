@@ -13,14 +13,35 @@ import { arrayToListNode } from "../2021/Jan/24/index.js";
  Note that the head is guaranteed to be not null, so it contains at least one node.
  * @param {ListNode} head
  */
-const Solution = function (head) {};
+const Solution = function (head) {
+  this.head = head;
+  let t = head,
+    count = 0;
+  while (t !== null) {
+    t = t.next;
+    count++;
+  }
+  this.size = count;
+  console.log(count);
+  this.next = this.head;
+};
 
 /**
  * Returns a random node's value.
  * @return {number}
  */
 Solution.prototype.getRandom = function () {
-  return Math.floor(Math.random() * 3 + 1);
+  let ans = this.next.val;
+  for (let i = 1; i < this.size; i++) {
+    this.next = this.next.next;
+    if (this.next == null) {
+      this.next = this.head;
+    }
+    if (Math.floor(Math.random() * this.size) === 0) {
+      ans = this.next.val;
+    }
+  }
+  return ans;
 };
 
 /**
@@ -47,6 +68,13 @@ export default function run(input) {
             break;
         }
       }
+      // this is not a fair and reliable verification
+      // so please manually check the result to ensure the distribution
+      const table = {};
+      ans.forEach((v) => {
+        table[v] = (table[v] || 0) + 1;
+      });
+      console.log(table);
       return ans.every((v) => values.includes(v));
     })
     .map(String);
