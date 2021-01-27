@@ -6,7 +6,20 @@ import { group } from "../utils.js";
  * @return {number}
  */
 const numSubarrayProductLessThanK = function (nums, k) {
-  return 0;
+  let ans = 0;
+  for (let i = 0; i < nums.length; i++) {
+    let count = 0,
+      n = 1;
+    for (let j = i; j < nums.length && n < k; j++) {
+      n *= nums[j];
+      if (n < k) {
+        // console.log(n);
+        count++;
+      }
+    }
+    ans += count;
+  }
+  return ans;
 };
 
 export default function run(input) {
