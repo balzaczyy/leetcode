@@ -45,7 +45,7 @@ export function arrayToListNode(arr = []) {
   return next;
 }
 
-function listNodeToArray(root) {
+export function listNodeToArray(root) {
   const ans = [];
   let next = root;
   while (next) {
