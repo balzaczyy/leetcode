@@ -10,9 +10,10 @@
  * @param {TreeNode} root
  * @return {TreeNode}
  */
-const increasingBST = function(root) {
+const increasingBST = function (root) {
   function gen(root) {
-    let rStart = root, rEnd = root;
+    let rStart = root,
+      rEnd = root;
     if (root.left) {
       const { start, end } = gen(root.left);
       rStart = start;
@@ -27,19 +28,19 @@ const increasingBST = function(root) {
     return {
       start: rStart,
       end: rEnd,
-    }
+    };
   }
   const { start } = gen(root);
   return start;
 };
 
-function TreeNode(val, left, right) {
-  this.val = (val===undefined ? 0 : val)
-  this.left = (left===undefined ? null : left)
-  this.right = (right===undefined ? null : right)
+export function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
 }
 
-function arrayToTree(arr) {
+export function arrayToTree(arr) {
   const root = new TreeNode(arr[0]);
   const q = [root];
   let pos = 1;
@@ -61,7 +62,7 @@ function arrayToTree(arr) {
   return root;
 }
 
-function treeToArray(root) {
+export function treeToArray(root) {
   const q = [root];
   const arr = [];
   while (q.length > 0) {
@@ -80,7 +81,8 @@ function treeToArray(root) {
 }
 
 export default function run(input) {
-  return input.map(JSON.parse)
+  return input
+    .map(JSON.parse)
     .map(arrayToTree)
     .map(increasingBST)
     .map(treeToArray)
