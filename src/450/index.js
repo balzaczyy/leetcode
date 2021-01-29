@@ -28,8 +28,8 @@ const deleteNode = function (root, key) {
         node.val = next.val;
         _deleteNode(p, next, true);
       } else {
-        node.val = t.right.val;
-        node.right = t.right.right;
+        node.val = node.right.val;
+        node.right = node.right.right;
       }
     } else if (node.left) {
       let next = node.left,
@@ -40,10 +40,10 @@ const deleteNode = function (root, key) {
           next = next.right;
         }
         node.val = next.val;
-        _deleteNode(p, next, true);
+        _deleteNode(p, next, false);
       } else {
-        node.val = t.left.val;
-        node.left = t.left.left;
+        node.val = node.left.val;
+        node.left = node.left.left;
       }
     } else {
       if (isLeft) {
