@@ -41,6 +41,9 @@ export function TreeNode(val, left, right) {
 }
 
 export function arrayToTree(arr) {
+  if (arr.length === 0) {
+    return null;
+  }
   const root = new TreeNode(arr[0]);
   const q = [root];
   let pos = 1;
@@ -63,6 +66,9 @@ export function arrayToTree(arr) {
 }
 
 export function treeToArray(root) {
+  if (root === null) {
+    return [];
+  }
   const q = [root];
   const arr = [];
   while (q.length > 0) {
