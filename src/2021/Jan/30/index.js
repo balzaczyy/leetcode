@@ -3,6 +3,15 @@
  * @return {number}
  */
 const minimumDeviation = function (nums) {
+  const uniqueNums = new Set();
+  nums = nums.filter((v) => {
+    if (uniqueNums.has(v)) {
+      return false;
+    }
+    uniqueNums.add(v);
+    return true;
+  });
+
   const findMin = (v) => {
     while (v % 2 === 0) v /= 2;
     return v;
