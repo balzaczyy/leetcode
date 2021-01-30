@@ -6,7 +6,15 @@ import { group } from "../utils.js";
  * @return {number}
  */
 const findRadius = function (houses, heaters) {
-  return 0;
+  let ans = 0;
+  for (let i = 0; i < houses.length; i++) {
+    let min = Math.abs(houses[i] - heaters[0]);
+    for (let j = 1; j < heaters.length; j++) {
+      min = Math.min(min, Math.abs(houses[i] - heaters[j]));
+    }
+    ans = Math.max(ans, min);
+  }
+  return ans;
 };
 
 export default function run(input) {
