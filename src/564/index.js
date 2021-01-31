@@ -3,71 +3,67 @@
  * @return {string}
  */
 const nearestPalindromic = function (n) {
-  if (n.length === 1) {
-    const n1 = Number(n);
-    return String(n1 - 1);
-  }
-
-  const len = Math.floor(n.length / 2);
-  const a = Number(n.substring(0, len));
-  const b = Number(n.substring(n.length - len));
-  const hasMid = n.length >= 3 && n.length % 2 === 1;
-  const m = hasMid ? Number(n[len]) : -1;
+  const len = Math.ceil(n.length / 2);
+  let a = Number(n.substring(0, len));
+  let b = Number(n.substring(len));
+  const hasMid = n.length % 2 === 1;
+  console.log(n, a, b);
 
   const reverse = (n) => {
-    let r = 0;
-    while (n > 0) {
-      r = r * 10 + (n % 10);
-      n = Math.floor(n / 10);
+    let r = 0,
+      t = n,
+      i = 0;
+    while (t > 0) {
+      r = r * 10 + (t % 10);
+      t = Math.floor(t / 10);
+      i++;
+    }
+    if (len + i > n.length) {
+      // exclude mid
+      return reverse(Math.floor(n / 10));
     }
     return r;
   };
 
-  if (!hasMid) {
-    return String(a) + String(reverse(a));
-  }
+  // const padding = (s, size) => {
+  //   if (s.length > size + 1) {
+  //     throw new Error('impossible');
+  //   } else if (s.length === size + 1) {
+  //     return s.substring(1);
+  //   } else if (s.length === size) {
+  //     return s;
+  //   }
+  //   return Array(size - s.length).fill('0').join('') + s;
+  // }
 
   const floor = Math.pow(10, len);
   const r = reverse(a);
-  const ans = [{ a, b: r, m, diff: Math.abs(r - b), step: 0 }];
-
-  // try mid+1
-  if (m < 9) {
-    ans.push({ a, b: r, m: m + 1, diff: Math.abs(r + floor - b), step: 1 });
-  } else {
+  if (r < b) {
+    // try add 1
+    const d = Math.abs(r - b);
     const r1 = reverse(a + 1);
-    ans.push({
-      a: a + 1,
-      b: r1,
-      m: 0,
-      diff: Math.abs(r1 + floor - b),
-      step: 1,
-    });
-  }
-
-  // try mid-1
-  if (m > 0) {
-    ans.push({ a, b: r, m: m - 1, diff: Math.abs(r - floor - b), step: -1 });
-  } else if (a > 1) {
-    const r1 = reverse(a - 1);
-    ans.push({
-      a: a - 1,
-      b: r1,
-      m: 9,
-      diff: Math.abs(r1 - floor - b),
-      step: -1,
-    });
-  }
-
-  ans.sort((a, b) => {
-    const d = a.diff - b.diff;
-    if (d !== 0) {
-      return d;
+    const d1 = Math.abs(r1 + floor - b);
+    if (d1 < d) {
+      a++;
     }
+  } else if (r > b) {
+    const d = Math.abs(r - b);
+    const r1 = reverse(a - 1);
+    const d1 = Math.abs(b + floor - r1);
+    if (d1 < d) {
+      a--;
+    }
+  } else {
+    return "oh no";
+  }
 
-    return a.step - b.step;
-  });
-  return String(ans[0].a) + String(ans[0].m) + String(ans[0].b);
+  const pa = String(a);
+  const pb = String(reverse(a));
+  const padding = n.length - len - pb.length;
+  if (padding < 0) {
+    throw new Error("impossible");
+  }
+  return padding === 0 ? pa + pb : pa + Array().fill("0").join("") + pb;
 };
 
 export default function run(input) {
