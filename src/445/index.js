@@ -6,11 +6,7 @@
  * }
  */
 import { group } from "../utils.js";
-import {
-  arrayToListNode,
-  ListNode,
-  listNodeToArray,
-} from "../2021/Jan/24/index.js";
+import { arrayToListNode, ListNode, listNodeToArray } from "../23/index.js";
 
 /**
  * @param {ListNode} l1

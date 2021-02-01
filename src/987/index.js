@@ -1,4 +1,4 @@
-import { arrayToTree } from "../../../897/index.js";
+import { arrayToTree } from "../897";
 
 /**
  * Definition for a binary tree node.

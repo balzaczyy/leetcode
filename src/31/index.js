@@ -1,42 +1,44 @@
 /**
  * @param {number[]} nums
- * @return {number}
+ * @return {void} Do not return anything, modify nums in-place instead.
  */
-const minimumDeviation = function (nums) {
-  const uniqueNums = new Set();
-  nums = nums.filter((v) => {
-    if (uniqueNums.has(v)) {
-      return false;
+const nextPermutation = function (nums) {
+  let found = -1;
+  for (let i = nums.length - 2; i >= 0 && found < 0; i--) {
+    let next = -1;
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[j] > nums[i] && (next < 0 || nums[j] < nums[next])) {
+        next = j;
+      }
     }
-    uniqueNums.add(v);
-    return true;
-  });
-
-  const findMin = (v) => {
-    while (v % 2 === 0) v /= 2;
-    return v;
-  };
-  const findMax = (v) => (v % 2 === 0 ? v : v * 2);
-  const state = nums.map((v) => ({
-    value: findMin(v),
-    max: findMax(v),
-  }));
-  let minDev = -1;
-  while (true) {
-    state.sort((a, b) => a.value - b.value);
-    let maxDev = state[state.length - 1].value - state[0].value;
-    if (minDev === -1 || maxDev < minDev) {
-      minDev = maxDev;
-    }
-    if (state[0].value < state[0].max) {
-      state[0].value *= 2;
-    } else {
-      break;
+    if (next >= 0) {
+      const t = nums[i];
+      nums[i] = nums[next];
+      nums[next] = t;
+      found = i;
     }
   }
-  return minDev;
+
+  if (found >= 0) {
+    if (found < nums.length - 1) {
+      nums
+        .slice(found + 1)
+        .sort((a, b) => a - b)
+        .forEach((v, i) => {
+          nums[found + 1 + i] = v;
+        });
+    }
+  } else {
+    nums.sort((a, b) => a - b);
+  }
 };
 
 export default function run(input) {
-  return input.map(JSON.parse).map(minimumDeviation).map(String);
+  return input
+    .map(JSON.parse)
+    .map((nums) => {
+      nextPermutation(nums);
+      return nums;
+    })
+    .map((v) => JSON.stringify(v));
 }

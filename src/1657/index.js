@@ -1,4 +1,4 @@
-import { group } from "../../../utils.js";
+import { group } from "../utils.js";
 
 /**
  * @param {string} word1

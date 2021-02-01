@@ -6,7 +6,7 @@
  * }
  */
 import { group } from "../utils.js";
-import { arrayToListNode } from "../2021/Jan/24/index.js";
+import { arrayToListNode } from "../23/index.js";
 
 /**
  * @param head The linked list's head.
