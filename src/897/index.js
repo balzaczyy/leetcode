@@ -65,7 +65,7 @@ export function arrayToTree(arr) {
   return root;
 }
 
-export function treeToArray(root) {
+export function treeToArray(root, trim = false) {
   if (root === null) {
     return [];
   }
@@ -81,6 +81,11 @@ export function treeToArray(root) {
       }
     } else {
       arr.push(null);
+    }
+  }
+  if (trim) {
+    while (arr.length > 0 && arr[arr.length - 1] === null) {
+      arr.pop();
     }
   }
   return arr;

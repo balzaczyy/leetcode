@@ -16,6 +16,19 @@ import { group } from "../utils.js";
  * @return {TreeNode}
  */
 const trimBST = function (root, low, high) {
+  if (root === null) {
+    return null;
+  }
+
+  const val = root.val;
+  if (val < low) {
+    return trimBST(root.right, low, high);
+  } else if (val > high) {
+    return trimBST(root.left, low, high);
+  }
+
+  root.left = trimBST(root.left, low, high);
+  root.right = trimBST(root.right, low, high);
   return root;
 };
 
@@ -23,6 +36,6 @@ export default function run(input) {
   return group(input.map(JSON.parse), 3)
     .map(([a, low, high]) => [arrayToTree(a), low, high])
     .map(([root, low, high]) => trimBST(root, low, high))
-    .map(treeToArray)
+    .map((v) => treeToArray(v, true))
     .map((v) => JSON.stringify(v));
 }
