@@ -37,6 +37,10 @@ export function ListNode(val, next) {
   this.next = next === undefined ? null : next;
 }
 
+/**
+ * @param {any[]} arr
+ * @return {ListNode}
+ */
 export function arrayToListNode(arr = []) {
   let next = null;
   for (let i = arr.length - 1; i >= 0; i--) {
