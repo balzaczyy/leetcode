@@ -19,6 +19,7 @@ const minNumberOfSemesters = function (n, dependencies, k) {
     }
     outs[a - 1].add(b - 1);
   });
+  // console.log(ins);
 
   // calculate depth to detect critical path
   const depths = [];
@@ -46,7 +47,20 @@ const minNumberOfSemesters = function (n, dependencies, k) {
   }
   // console.log(depths);
 
-  // console.log(ins);
+  // calculate course power, which course opens more courses
+  function power(x) {
+    if ((outs[x]?.size || 0) === 0) {
+      return 0;
+    }
+    let p = 0;
+    outs[x].forEach((v) => {
+      const prev = ins[v].size; // must be larger than 0
+      p += 1 / prev;
+    });
+    return p;
+  }
+  // console.log(Array.from(Array(n).keys()).map(power));
+
   const q = Array.from(Array(n).keys());
 
   function compare(a, b) {
@@ -56,7 +70,11 @@ const minNumberOfSemesters = function (n, dependencies, k) {
       return 0;
     }
     if (inLenA === 0 && inLenB === 0) {
-      return depths[b] - depths[a];
+      const dd = depths[b] - depths[a];
+      if (dd !== 0) {
+        return dd;
+      }
+      return power(b) - power(a);
     }
     return inLenA - inLenB;
   }
