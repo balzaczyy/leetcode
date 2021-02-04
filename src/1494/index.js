@@ -61,8 +61,6 @@ const minNumberOfSemesters = function (n, dependencies, k) {
   }
   // console.log(Array.from(Array(n).keys()).map(power));
 
-  const q = Array.from(Array(n).keys());
-
   function compare(a, b) {
     const inLenA = ins[a]?.size || 0;
     const inLenB = ins[b]?.size || 0;
@@ -70,35 +68,98 @@ const minNumberOfSemesters = function (n, dependencies, k) {
       return 0;
     }
     if (inLenA === 0 && inLenB === 0) {
-      const dd = depths[b] - depths[a];
-      if (dd !== 0) {
-        return dd;
-      }
+      return 0;
+    }
+    return inLenA - inLenB;
+  }
+  function compareDepth(a, b) {
+    const inLenA = ins[a]?.size || 0;
+    const inLenB = ins[b]?.size || 0;
+    if (inLenA > 0 && inLenB > 0) {
+      return 0;
+    }
+    if (inLenA === 0 && inLenB === 0) {
+      return depths[b] - depths[a];
+    }
+    return inLenA - inLenB;
+  }
+  function comparePower(a, b) {
+    const inLenA = ins[a]?.size || 0;
+    const inLenB = ins[b]?.size || 0;
+    if (inLenA > 0 && inLenB > 0) {
+      return 0;
+    }
+    if (inLenA === 0 && inLenB === 0) {
       return power(b) - power(a);
     }
     return inLenA - inLenB;
   }
 
-  let ans = 0;
-  while (q.length > 0) {
+  let ans = -1;
+  const q = Array.from(Array(n).keys());
+  function search(depth) {
+    if (q.length === 0) {
+      if (ans < 0 || depth < ans) {
+        ans = depth;
+      }
+      return;
+    }
+
     q.sort(compare);
-    const pos = q.findIndex((v) => (ins[v]?.size || 0) > 0);
-    const till = pos < 0 ? q.length : pos;
-    const save = q.length;
-    for (let i = 0; i < k && i < till && q.length > 0; i++) {
-      const c = q.shift();
+
+    function commit(c) {
       if (outs[c]) {
         outs[c].forEach((v) => {
           ins[v].delete(c);
         });
       }
     }
-    if (q.length === save) {
-      throw new Error("impossible");
+    function rollback(c) {
+      if (outs[c]) {
+        outs[c].forEach((v) => {
+          ins[v].add(c);
+        });
+      }
     }
-    ans++;
-    // console.log(ans, q);
+
+    // pick k courses from q[0..till)
+    function pick(candidates, callback) {
+      if (
+        q.length === 0 || // no more course
+        (ins[q[0]]?.size || 0) > 0 || // no available course
+        candidates.length === k
+      ) {
+        // enough course for this semester
+        callback(candidates);
+        return;
+      }
+
+      // try critical path first
+      q.sort(compareDepth);
+      let c = q.shift();
+      pick([...candidates, c], callback);
+      q.unshift(c);
+
+      // try power first
+      q.sort(comparePower);
+      c = q.shift();
+      pick([...candidates, c], callback);
+      q.unshift(c);
+    }
+
+    pick([], (candidates) => {
+      if (candidates.length === 0) {
+        throw new Error("impossible");
+      }
+      // console.log(ans, depth, candidates.map(v=>v+1));
+      candidates.forEach(commit);
+      search(depth + 1);
+      candidates.forEach(rollback);
+    });
   }
+
+  search(0);
+  console.log(ans);
   return ans;
 };
 
