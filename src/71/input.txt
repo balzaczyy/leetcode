@@ -1,3 +1,6 @@
+"/home/foo/.ssh/../.ssh2/authorized_keys/"
+"/..hidden"
+"/a//b////c/d//././/.."
 "/home/"
 "/../"
 "/home//foo/"

@@ -18,7 +18,7 @@ const simplifyPath = function (path) {
 
   function readWord(pos) {
     const start = pos;
-    while (pos < path.length && path[pos].match(/[a-z_\\.]/i)) {
+    while (pos < path.length && path[pos].match(/[a-z0-9_\\.]/i)) {
       pos++;
     }
     return [pos, typeWord, path.substring(start, pos)];
@@ -30,10 +30,12 @@ const simplifyPath = function (path) {
     while (pos < path.length && path[pos] === ".") {
       pos++;
     }
-    if (pos - start === 1) {
-      return [pos, typeSingleDot];
-    } else if (pos - start === 2) {
-      return [pos, typeDoubleDots];
+    if (pos === path.length || path[pos] === "/") {
+      if (pos - start === 1) {
+        return [pos, typeSingleDot];
+      } else if (pos - start === 2) {
+        return [pos, typeDoubleDots];
+      }
     }
     const [posNext, , w] = readWord(pos);
     return [posNext, typeWord, path.substring(start, pos) + w];
@@ -63,7 +65,6 @@ const simplifyPath = function (path) {
         ans.push(s);
         break;
       case typeDoubleDots:
-        ans.pop();
         ans.pop();
         break;
       default:
