@@ -13,7 +13,20 @@ import { arrayToTree } from "../897/index.js";
  * @return {number[]}
  */
 const rightSideView = function (root) {
-  return [1, 2, 3];
+  const ans = [];
+  function dfs(node = root, depth = 0) {
+    if (node.left) {
+      dfs(node.left, depth + 1);
+    }
+    ans[depth] = node.val;
+    if (node.right) {
+      dfs(node.right, depth + 1);
+    }
+  }
+  if (root) {
+    dfs();
+  }
+  return ans;
 };
 
 export default function run(input) {
