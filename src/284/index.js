@@ -19,22 +19,43 @@ import { group } from "../utils.js";
 /**
  * @param {Iterator} iterator
  */
-var PeekingIterator = function (iterator) {};
+const PeekingIterator = function (iterator) {
+  this.iter = iterator;
+  this.head = null;
+};
 
 /**
  * @return {number}
  */
-PeekingIterator.prototype.peek = function () {};
+PeekingIterator.prototype.peek = function () {
+  if (!this.head) {
+    if (this.iter.hasNext()) {
+      this.head = this.iter.next();
+    }
+  }
+  return this.head;
+};
 
 /**
  * @return {number}
  */
-PeekingIterator.prototype.next = function () {};
+PeekingIterator.prototype.next = function () {
+  let res;
+  if (this.head) {
+    res = this.head;
+    this.head = null;
+  } else {
+    res = this.iter.next();
+  }
+  return res;
+};
 
 /**
  * @return {boolean}
  */
-PeekingIterator.prototype.hasNext = function () {};
+PeekingIterator.prototype.hasNext = function () {
+  return this.head || this.iter.hasNext();
+};
 
 /**
  * Your PeekingIterator object will be instantiated and called as such:
@@ -44,18 +65,38 @@ PeekingIterator.prototype.hasNext = function () {};
  * var param_3 = obj.hasNext()
  */
 
+export function Iterator(arr) {
+  let pos = 0;
+  //@ return {number}
+  this.next = function () {
+    // return the next number of the iterator
+    let res = null;
+    if (pos < arr.length) {
+      res = arr[pos];
+      pos++;
+    }
+    return res;
+  };
+
+  //@return {boolean}
+  this.hasNext = function () {
+    // return true if it still has numbers
+    return pos < arr.length;
+  };
+}
+
 export default function run(input) {
   return group(input.map(JSON.parse), 2)
     .map(([commands, params]) => {
       const ans = [];
-      let obj = {},
-        values;
+      let obj = {};
       for (let i = 0; i < commands.length; i++) {
         const param = params[i];
         switch (commands[i]) {
           case "PeekingIterator":
-            values = param[0];
+            param[0] = new Iterator(param[0]);
             obj = new PeekingIterator(...param);
+            ans.push(null);
             break;
           case "next":
             ans.push(obj.next());
