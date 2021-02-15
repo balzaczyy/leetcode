@@ -4,7 +4,7 @@
  */
 const isPossible = function (nums) {
   function _isPossible(counts) {
-    if (counts.length < 3) {
+    if (counts.length < 4) {
       return false;
     }
 
