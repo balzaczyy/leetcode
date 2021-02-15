@@ -20,7 +20,7 @@ const isPossible = function (nums) {
         // n < last
         let count = last - n;
         while (count > 0 && seqs.length > 0) {
-          if (i - seqs[0][0] < 3) {
+          if (i - seqs[0][0] < 4) {
             return false;
           }
           if (seqs[0][1] > count) {
