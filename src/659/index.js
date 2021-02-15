@@ -35,10 +35,11 @@ const isPossible = function (nums) {
           return false;
         }
       }
+      last = n;
     }
     while (seqs.length > 0) {
       const t = seqs.shift();
-      if (nums.length - t[0] < 3) {
+      if (counts.length - t[0] < 3) {
         return false;
       }
     }
