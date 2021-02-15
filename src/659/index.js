@@ -9,7 +9,7 @@ const isPossible = function (nums) {
     }
 
     let last = counts[1] - counts[0];
-    const seqs = [[0, last]];
+    const seqs = [[1, last]];
     for (let i = 2; i < counts.length; i++) {
       const n = counts[i] - counts[i - 1];
       if (n === last) {
