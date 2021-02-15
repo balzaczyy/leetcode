@@ -6,7 +6,9 @@ import { group } from "../utils.js";
  * @return {number[]}
  */
 const kWeakestRows = function (mat, k) {
-  return [];
+  const power = mat.map((v, i) => [v.reduce((acc, cur) => acc + cur), i]);
+  power.sort((a, b) => a[0] - b[0]);
+  return power.map((v) => v[1]).slice(0, k);
 };
 
 export default function run(input) {
