@@ -55,11 +55,13 @@ export function arrayToTree(arr) {
       node.left = leftNode;
       q.push(leftNode);
     }
-    const right = arr[pos++];
-    if (right !== null) {
-      const rightNode = new TreeNode(right);
-      node.right = rightNode;
-      q.push(rightNode);
+    if (pos < arr.length) {
+      const right = arr[pos++];
+      if (right !== null) {
+        const rightNode = new TreeNode(right);
+        node.right = rightNode;
+        q.push(rightNode);
+      }
     }
   }
   return root;
