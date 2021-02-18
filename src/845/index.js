@@ -21,17 +21,22 @@ const longestMountain = function (arr) {
     } else {
       // descending
       if (arr[i] > arr[i - 1]) {
-        max = Math.max(max, end - start + 1);
+        if (peak > start && end > peak) {
+          max = Math.max(max, end - start + 1);
+        }
         start = end;
         peak = i;
       } else if (arr[i] === arr[i - 1]) {
+        if (peak > start && end > peak) {
+          max = Math.max(max, end - start + 1);
+        }
         start = peak = end = i;
       } else {
         end = i;
       }
     }
   }
-  return max < 3 ? 0 : max;
+  return max;
 };
 
 export default function run(input) {
