@@ -2,3 +2,7 @@
 ["ale","apple","monkey","plea"]
 "abpcplea"
 ["a","b","c"]
+"abcd"
+["a","b","abcde"]
+""
+[]
