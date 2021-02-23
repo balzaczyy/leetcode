@@ -18,15 +18,24 @@ const searchMatrix = function (matrix, target) {
       }
       return false;
     }
+
     const r = Math.floor((r1 + r2) / 2);
     const c = Math.floor((c1 + c2) / 2);
-    const mid = matrix[r][c];
-    if (target < mid) {
-      return search(r1, c1, r + 1, c + 1);
-    } else if (target > mid) {
+    const m1 = matrix[r1][c];
+    const m2 = matrix[r][c2 - 1];
+    if (target === m1 || target === m2) {
+      return true;
+    }
+    if (target > m1 && target > m2) {
       return search(r, c, r2, c2);
     }
-    return true;
+    if (target > m1 && target < m2) {
+      return search(r1, c, r, c2);
+    }
+    if (target < m1 && target > m2) {
+      return search(r, c1, r2, c);
+    }
+    return search(r1, c1, r, c);
   }
   return search(0, 0, matrix.length, matrix[0].length);
 };
