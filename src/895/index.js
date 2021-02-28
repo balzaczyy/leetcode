@@ -1,18 +1,57 @@
 import { group } from "../utils.js";
 
-const FreqStack = function () {};
+const FreqStack = function () {
+  this.entries = [];
+  this.hash = new Map();
+  this.size = 0;
+};
 
 /**
  * @param {number} x
  * @return {void}
  */
-FreqStack.prototype.push = function (x) {};
+FreqStack.prototype.push = function (x) {
+  const ent = this.hash.get(x);
+  if (ent) {
+    ent.count++;
+    ent.offsets.unshift(this.size);
+    this.entries.sort((a, b) => {
+      if (a.count !== b.count) {
+        return b.count - a.count;
+      }
+      return b.offsets[0] - a.offsets[0];
+    });
+  } else {
+    const next = {
+      value: x,
+      count: 1,
+      offsets: [this.size],
+    };
+    this.hash.set(x, next);
+    this.entries.push(next);
+  }
+  this.size++;
+};
 
 /**
  * @return {number}
  */
 FreqStack.prototype.pop = function () {
-  return 0;
+  const ent = this.entries[0];
+  ent.count--;
+  ent.offsets.shift();
+  if (ent.offsets.length === 0) {
+    this.hash.delete(ent.value);
+  }
+  this.size--;
+  // re-sort
+  this.entries.sort((a, b) => {
+    if (a.count !== b.count) {
+      return b.count - a.count;
+    }
+    return b.offsets[0] - a.offsets[0];
+  });
+  return ent.value;
 };
 
 /**
