@@ -1,2 +1,4 @@
+["FreqStack","push","push","push","push","push","push","pop","push","pop","push","pop","push","pop","push","pop","pop","pop","pop","pop","pop"]
+[[],[4],[0],[9],[3],[4],[2],[],[6],[],[1],[],[1],[],[4],[],[],[],[],[],[]]
 ["FreqStack","push","push","push","push","push","push","pop","pop","pop","pop"]
 [[],[5],[7],[5],[7],[4],[5],[],[],[],[]]

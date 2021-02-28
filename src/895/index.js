@@ -3,7 +3,7 @@ import { group } from "../utils.js";
 const FreqStack = function () {
   this.entries = [];
   this.hash = new Map();
-  this.size = 0;
+  this.nextOffset = 0;
 };
 
 /**
@@ -14,23 +14,23 @@ FreqStack.prototype.push = function (x) {
   const ent = this.hash.get(x);
   if (ent) {
     ent.count++;
-    ent.offsets.unshift(this.size);
-    this.entries.sort((a, b) => {
-      if (a.count !== b.count) {
-        return b.count - a.count;
-      }
-      return b.offsets[0] - a.offsets[0];
-    });
+    ent.offsets.unshift(this.nextOffset);
   } else {
     const next = {
       value: x,
       count: 1,
-      offsets: [this.size],
+      offsets: [this.nextOffset],
     };
     this.hash.set(x, next);
     this.entries.push(next);
   }
-  this.size++;
+  this.entries.sort((a, b) => {
+    if (a.count !== b.count) {
+      return b.count - a.count;
+    }
+    return b.offsets[0] - a.offsets[0];
+  });
+  this.nextOffset++;
 };
 
 /**
@@ -42,8 +42,8 @@ FreqStack.prototype.pop = function () {
   ent.offsets.shift();
   if (ent.offsets.length === 0) {
     this.hash.delete(ent.value);
+    this.entries.shift();
   }
-  this.size--;
   // re-sort
   this.entries.sort((a, b) => {
     if (a.count !== b.count) {
