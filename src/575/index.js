@@ -3,7 +3,14 @@
  * @return {number}
  */
 const distributeCandies = function (candyType) {
-  return 0;
+  const kinds = new Set();
+  for (let i = 0; i < candyType.length; i++) {
+    kinds.add(candyType[i]);
+    if (kinds.size >= candyType.length / 2) {
+      break;
+    }
+  }
+  return kinds.size;
 };
 
 export default function run(input) {
