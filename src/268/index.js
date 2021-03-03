@@ -3,7 +3,9 @@
  * @return {number}
  */
 const missingNumber = function (nums) {
-  return 0;
+  const n = nums.length;
+  let sum = (n * (n + 1)) / 2;
+  return nums.reduce((acc, cur) => acc - cur, sum);
 };
 
 export default function run(input) {
