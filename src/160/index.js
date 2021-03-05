@@ -15,7 +15,46 @@ import { arrayToListNode } from "../23/index.js";
  * @return {ListNode}
  */
 const getIntersectionNode = function (headA, headB) {
-  return headA;
+  /**
+   * @param {ListNode} head
+   * @returns {number}
+   */
+  function length(head) {
+    let n = 0;
+    while (head !== null) {
+      n++;
+      head = head.next;
+    }
+    return n;
+  }
+
+  /**
+   * @param {ListNode} head
+   * @param {number} steps
+   * @returns {ListNode}
+   */
+  function skip(head, steps) {
+    for (let i = 0; i < steps; i++) {
+      head = head.next;
+    }
+    return head;
+  }
+
+  const lenA = length(headA);
+  const lenB = length(headB);
+  if (lenA > lenB) {
+    headA = skip(headA, lenA - lenB);
+  } else if (lenA < lenB) {
+    headB = skip(headB, lenB - lenA);
+  }
+  while (headA !== null && headB !== null && headA !== headB) {
+    headA = headA.next;
+    headB = headB.next;
+  }
+  if (headA && headB && headA === headB) {
+    return headA;
+  }
+  return null;
 };
 
 export default function run(input) {
