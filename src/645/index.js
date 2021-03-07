@@ -3,7 +3,23 @@
  * @return {number[]}
  */
 const findErrorNums = function (nums) {
-  return [1, 2];
+  let dup = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== i + 1) {
+      if (nums[nums[i] - 1] === nums[i]) {
+        dup = nums[i];
+      } else {
+        const t = nums[i];
+        nums[i] = nums[t - 1];
+        nums[t - 1] = t;
+      }
+    }
+  }
+  console.log(nums);
+  const sum = nums.reduce((acc, cur) => acc + cur);
+  const target = ((nums.length + 1) * nums.length) / 2;
+  const x = target - sum + dup;
+  return [dup, x];
 };
 
 export default function run(input) {
