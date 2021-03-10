@@ -25,12 +25,8 @@ const addOneRow = function (root, v, d) {
   for (let depth = 1; depth < d; depth++) {
     if (depth === d - 1) {
       q.forEach((node) => {
-        if (node.left) {
-          node.left = new TreeNode(v, node.left);
-        }
-        if (node.right) {
-          node.right = new TreeNode(v, null, node.right);
-        }
+        node.left = new TreeNode(v, node.left);
+        node.right = new TreeNode(v, null, node.right);
       });
     } else {
       q.forEach((node) => {
@@ -54,6 +50,6 @@ export default function run(input) {
       return [arrayToTree(a), v, d];
     })
     .map(([root, v, d]) => addOneRow(root, v, d))
-    .map(treeToArray)
+    .map((t) => treeToArray(t, true))
     .map((v) => JSON.stringify(v));
 }

@@ -77,10 +77,8 @@ export function treeToArray(root, trim = false) {
     const node = q.shift();
     if (node) {
       arr.push(node.val);
-      if (node.left || node.right) {
-        q.push(node.left);
-        q.push(node.right);
-      }
+      q.push(node.left);
+      q.push(node.right);
     } else {
       arr.push(null);
     }
