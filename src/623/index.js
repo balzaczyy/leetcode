@@ -1,5 +1,5 @@
 import { group } from "../utils.js";
-import { arrayToTree, treeToArray } from "../897/index.js";
+import { arrayToTree, TreeNode, treeToArray } from "../897/index.js";
 
 /**
  * Definition for a binary tree node.
@@ -17,6 +17,34 @@ import { arrayToTree, treeToArray } from "../897/index.js";
  * @return {TreeNode}
  */
 const addOneRow = function (root, v, d) {
+  if (d === 1) {
+    return new TreeNode(v, root);
+  }
+  let q = [root],
+    next = [];
+  for (let depth = 1; depth < d; depth++) {
+    if (depth === d - 1) {
+      q.forEach((node) => {
+        if (node.left) {
+          node.left = new TreeNode(v, node.left);
+        }
+        if (node.right) {
+          node.right = new TreeNode(v, null, node.right);
+        }
+      });
+    } else {
+      q.forEach((node) => {
+        if (node.left) {
+          next.push(node.left);
+        }
+        if (node.right) {
+          next.push(node.right);
+        }
+      });
+      q = next;
+      next = [];
+    }
+  }
   return root;
 };
 
