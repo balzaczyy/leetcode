@@ -32,7 +32,7 @@ const hasAllCodes = function (s, k) {
     pool.add(seed);
   }
 
-  return true;
+  return pool.size === numCodecs;
 };
 
 export default function run(input) {
