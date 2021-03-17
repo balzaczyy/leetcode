@@ -1,0 +1,4 @@
+["Solution","randPoint","randPoint","randPoint"]
+[[1,0,0],[],[],[]]
+["Solution","randPoint","randPoint","randPoint"]
+[[10,5,-7.5],[],[],[]]
