@@ -1,6 +1,11 @@
 import { group } from "../utils.js";
 
-var UndergroundSystem = function () {};
+const UndergroundSystem = function () {
+  this.book = new Map(); // for transactions
+  this.time = new Map();
+  this.counts = new Map();
+  this.id = (from, to) => `${from}-${to}`;
+};
 
 /**
  * @param {number} id
@@ -8,7 +13,9 @@ var UndergroundSystem = function () {};
  * @param {number} t
  * @return {void}
  */
-UndergroundSystem.prototype.checkIn = function (id, stationName, t) {};
+UndergroundSystem.prototype.checkIn = function (id, stationName, t) {
+  this.book.set(id, [stationName, t]);
+};
 
 /**
  * @param {number} id
@@ -16,7 +23,18 @@ UndergroundSystem.prototype.checkIn = function (id, stationName, t) {};
  * @param {number} t
  * @return {void}
  */
-UndergroundSystem.prototype.checkOut = function (id, stationName, t) {};
+UndergroundSystem.prototype.checkOut = function (id, stationName, t) {
+  const [from, when] = this.book.get(id);
+  this.book.delete(id);
+  const key = this.id(from, stationName);
+  if (this.time.has(key)) {
+    this.time.set(key, this.time.get(key) + (t - when));
+    this.counts.set(key, this.counts.get(key) + 1);
+  } else {
+    this.time.set(key, t - when);
+    this.counts.set(key, 1);
+  }
+};
 
 /**
  * @param {string} startStation
@@ -26,7 +44,10 @@ UndergroundSystem.prototype.checkOut = function (id, stationName, t) {};
 UndergroundSystem.prototype.getAverageTime = function (
   startStation,
   endStation
-) {};
+) {
+  const key = this.id(startStation, endStation);
+  return this.time.get(key) / this.counts.get(key);
+};
 
 /**
  * Your UndergroundSystem object will be instantiated and called as such:
@@ -59,6 +80,7 @@ export default function run(input) {
             ans.push(null);
             break;
           case "getAverageTime":
+            // noinspection JSUnusedAssignment
             ans.push(obj.getAverageTime(...param));
             break;
           default:
