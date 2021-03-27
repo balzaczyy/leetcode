@@ -9,7 +9,7 @@ const spellchecker = function (wordlist, queries) {
   const sensitive = new Map();
   const insensitive = new Map();
   const fuzz = new Map();
-  const toFuzzKey = (v) => v.replace(/[aeiou]/gi, "-");
+  const toFuzzKey = (v) => v.toLowerCase().replace(/[aeiou]/gi, "-");
   wordlist.forEach((v) => {
     sensitive.set(v, v);
     if (!insensitive.has(v.toLowerCase())) {
