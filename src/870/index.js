@@ -18,14 +18,10 @@ const advantageCount = function (A, B) {
     while (A[from] < 0) from++;
     while (A[to] < 0) to--;
     if (v < A[from] || v >= A[to]) {
-      const t = A[from];
-      A[from] = -1;
-      return t;
+      return A.splice(from, 1)[0];
     }
     if (from + 1 === to) {
-      const t = A[to];
-      A[to] = -1;
-      return t;
+      return A.splice(to, 1)[0];
     }
     // now v in [A[from],A[to]) and at least 3 values do binary search
     const mid = Math.floor((from + to) / 2);
