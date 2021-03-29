@@ -36,7 +36,7 @@ const originalDigits = function (s) {
           counts.delete(v);
         }
       }
-      numbers[number]++;
+      numbers[number] += diff;
     }
   }
   const ans = [];
