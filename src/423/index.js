@@ -13,7 +13,7 @@ const originalDigits = function (s) {
     ["t", "three", 3],
     ["f", "five", 5],
     ["s", "seven", 7],
-    ["n", "nine", 9],
+    ["i", "nine", 9],
   ];
   const counts = new Map();
   for (const ch of s) {
