@@ -16,7 +16,36 @@ import { arrayToTree } from "../897/index.js";
  * @return {number[]}
  */
 const flipMatchVoyage = function (root, voyage) {
-  return [];
+  const ans = [];
+  function match(node, offset) {
+    if (!node) {
+      return offset;
+    }
+    if (node.val !== voyage[offset]) {
+      return -1;
+    }
+    if (!node.left && !node.right) {
+      return offset + 1;
+    }
+    if (node.left && voyage[offset + 1] === node.left.val) {
+      const next = match(node.left, offset + 1);
+      if (next) {
+        return match(node.right, next);
+      }
+    }
+    if (node.right && voyage[offset + 1] === node.right.val) {
+      ans.push(node.val);
+      const next = match(node.right, offset + 1);
+      if (next) {
+        return match(node.left, next);
+      }
+    }
+    return -1;
+  }
+  if (match(root, 0) < voyage.length) {
+    return [-1];
+  }
+  return ans;
 };
 
 export default function run(input) {
