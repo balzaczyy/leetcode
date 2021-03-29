@@ -34,7 +34,9 @@ const flipMatchVoyage = function (root, voyage) {
       }
     }
     if (node.right && voyage[offset + 1] === node.right.val) {
-      ans.push(node.val);
+      if (node.left) {
+        ans.push(node.val);
+      }
       const next = match(node.right, offset + 1);
       if (next) {
         return match(node.left, next);
