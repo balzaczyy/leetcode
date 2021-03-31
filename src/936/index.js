@@ -40,26 +40,26 @@ const movesToStamp = function (stamp, target) {
         continue;
       }
       let diff = 0;
-      if (i > 0) {
-        for (let j = Math.min(stamp.length - 1, v.length); j >= 1; j--) {
-          const prefix = hashRight.get(v.substring(0, j));
-          if (prefix) {
+      for (let j = Math.min(stamp.length - 1, v.length); j >= 1; j--) {
+        const prefix = hashRight.get(v.substring(0, j));
+        if (prefix) {
+          if (offset + next - prefix.length >= 0) {
             v = prefix + v;
             diff = -prefix.length;
             break;
           }
         }
+      }
 
-        if (v.length < stamp.length) {
-          const step = stamp.indexOf(v);
-          if (step >= 0) {
-            v = stamp;
-            diff = -step;
-          }
+      if (v.length < stamp.length) {
+        const step = stamp.indexOf(v);
+        if (step >= 0) {
+          v = stamp;
+          diff = -step;
         }
       }
 
-      if (v !== stamp && i < parts.length - 1) {
+      if (!v.startsWith(stamp) && i < parts.length - 1) {
         for (
           let j = Math.max(v.length - (stamp.length - 1), 0);
           j <= v.length;
@@ -77,21 +77,21 @@ const movesToStamp = function (stamp, target) {
     }
   }
 
-  // function encode(stamp, seq, len) {
-  //   let s = Array(len).fill('?').join('');
-  //   seq.forEach(p => {
-  //     if (p < 0 || p > len-stamp.length) {
-  //       throw new Error('impossible');
-  //     }
-  //     s = s.substring(0, p) + stamp + s.substring(p+stamp.length);
-  //   })
-  //   return s;
-  // }
-  // const s2 = encode(stamp, ans, target.length);
-  // if (s2 !== target) {
-  //   console.log(target, s2);
-  //   throw new Error('impossible');
-  // }
+  function encode(stamp, seq, len) {
+    let s = Array(len).fill("?").join("");
+    seq.forEach((p) => {
+      if (p < 0 || p > len - stamp.length) {
+        throw new Error("impossible");
+      }
+      s = s.substring(0, p) + stamp + s.substring(p + stamp.length);
+    });
+    return s;
+  }
+  const s2 = encode(stamp, ans, target.length);
+  if (s2 !== target) {
+    console.log(target, s2);
+    throw new Error("impossible");
+  }
   return ans;
 };
 
