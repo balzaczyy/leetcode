@@ -52,14 +52,22 @@ const movesToStamp = function (stamp, target) {
       }
 
       if (v.length < stamp.length) {
-        const step = stamp.indexOf(v);
-        if (step >= 0) {
-          v = stamp;
-          diff = -step;
-        }
+        let step = -1;
+        do {
+          step = stamp.indexOf(v, step + 1);
+          if (step >= 0) {
+            if (
+              offset + next - step >= 0 &&
+              offset + next - step + stamp.length <= target.length
+            ) {
+              v = stamp;
+              diff = -step;
+            }
+          }
+        } while (step >= 0);
       }
 
-      if (!v.startsWith(stamp) && i < parts.length - 1) {
+      if (!v.startsWith(stamp)) {
         for (
           let j = Math.max(v.length - (stamp.length - 1), 0);
           j <= v.length;
@@ -77,21 +85,22 @@ const movesToStamp = function (stamp, target) {
     }
   }
 
-  function encode(stamp, seq, len) {
-    let s = Array(len).fill("?").join("");
-    seq.forEach((p) => {
-      if (p < 0 || p > len - stamp.length) {
-        throw new Error("impossible");
-      }
-      s = s.substring(0, p) + stamp + s.substring(p + stamp.length);
-    });
-    return s;
-  }
-  const s2 = encode(stamp, ans, target.length);
-  if (s2 !== target) {
-    console.log(target, s2);
-    throw new Error("impossible");
-  }
+  // function encode(stamp, seq, len) {
+  //   let s = Array(len).fill("?").join("");
+  //   seq.forEach((p) => {
+  //     // if (p < 0 || p > len - stamp.length) {
+  //     //   throw new Error("impossible");
+  //     // }
+  //     s = s.substring(0, p) + stamp + s.substring(p + stamp.length);
+  //   });
+  //   return s;
+  // }
+  // const s2 = encode(stamp, ans, target.length);
+  // if (s2 !== target) {
+  //   console.log(target);
+  //   console.log(s2);
+  //   throw new Error("impossible");
+  // }
   return ans;
 };
 
