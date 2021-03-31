@@ -23,6 +23,10 @@ const movesToStamp = function (stamp, target) {
     const [s, offset] = q.shift();
     const parts = s.split(stamp);
 
+    if (parts.length === 1) {
+      return [];
+    }
+
     let next = 0;
     for (let i = 0; i < parts.length; i++) {
       let v = parts[i];
