@@ -50,7 +50,7 @@ const movesToStamp = function (stamp, target) {
           }
         }
       }
-      if (v.length !== stamp.length && i < parts.length - 1) {
+      if (v !== stamp && i < parts.length - 1) {
         for (
           let j = Math.max(v.length - (stamp.length - 1), 0);
           j <= v.length;
