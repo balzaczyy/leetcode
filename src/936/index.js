@@ -32,6 +32,7 @@ const movesToStamp = function (stamp, target) {
       }
 
       if (v.length === 0) {
+        next += stamp.length;
         continue;
       }
       let diff = 0;
