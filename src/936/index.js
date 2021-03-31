@@ -52,8 +52,10 @@ const movesToStamp = function (stamp, target) {
 
         if (v.length < stamp.length) {
           const step = stamp.indexOf(v);
-          v = stamp;
-          diff = -step;
+          if (step >= 0) {
+            v = stamp;
+            diff = -step;
+          }
         }
       }
 
@@ -74,6 +76,22 @@ const movesToStamp = function (stamp, target) {
       next = next + parts[i].length + stamp.length;
     }
   }
+
+  // function encode(stamp, seq, len) {
+  //   let s = Array(len).fill('?').join('');
+  //   seq.forEach(p => {
+  //     if (p < 0 || p > len-stamp.length) {
+  //       throw new Error('impossible');
+  //     }
+  //     s = s.substring(0, p) + stamp + s.substring(p+stamp.length);
+  //   })
+  //   return s;
+  // }
+  // const s2 = encode(stamp, ans, target.length);
+  // if (s2 !== target) {
+  //   console.log(target, s2);
+  //   throw new Error('impossible');
+  // }
   return ans;
 };
 
