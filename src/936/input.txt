@@ -1,4 +1,4 @@
-abc
-ababc
 abca
 aabcaca
+abc
+ababc
