@@ -49,7 +49,14 @@ const movesToStamp = function (stamp, target) {
             break;
           }
         }
+
+        if (v.length < stamp.length) {
+          const step = stamp.indexOf(v);
+          v = stamp;
+          diff = -step;
+        }
       }
+
       if (v !== stamp && i < parts.length - 1) {
         for (
           let j = Math.max(v.length - (stamp.length - 1), 0);
