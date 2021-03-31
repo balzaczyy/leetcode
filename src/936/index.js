@@ -50,7 +50,7 @@ const movesToStamp = function (stamp, target) {
           }
         }
       }
-      if (i < parts.length - 1) {
+      if (v.length !== stamp.length && i < parts.length - 1) {
         for (
           let j = Math.max(v.length - (stamp.length - 1), 0);
           j <= v.length;
@@ -63,7 +63,7 @@ const movesToStamp = function (stamp, target) {
           }
         }
       }
-      q.push([v, next + diff]);
+      q.push([v, offset + next + diff]);
       next = next + parts[i].length + stamp.length;
     }
   }
