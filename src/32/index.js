@@ -15,18 +15,27 @@ const longestValidParentheses = function (s) {
     }
 
     const stack = [];
-    let res = 0;
+    const res = [0];
+    const max = () => {
+      let ans = 0;
+      res.forEach((v) => {
+        ans = Math.max(ans, v);
+      });
+      return ans;
+    };
     for (let i = offset; i < s.length; i++) {
       if (s[i] === "(") {
         stack.push("(");
+        res.push(0);
       } else if (stack.length === 0 || stack[stack.length - 1] !== "(") {
-        return Math.max(res, search(s, i + 1));
+        return Math.max(max(), search(s, i + 1));
       } else {
         stack.pop();
-        res += 2;
+        res.pop();
+        res[res.length - 1] += 2;
       }
     }
-    return res;
+    return max();
   }
   return search(s, 0);
 };
