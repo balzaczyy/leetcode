@@ -28,8 +28,10 @@ MyCircularQueue.prototype.enQueue = function (value) {
  */
 MyCircularQueue.prototype.deQueue = function () {
   const hasValues = this.size > 0;
-  this.head = (this.head + 1) % this.queue.length;
-  this.size--;
+  if (hasValues) {
+    this.head = (this.head + 1) % this.queue.length;
+    this.size--;
+  }
   return hasValues;
 };
 
