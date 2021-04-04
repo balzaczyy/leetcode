@@ -31,8 +31,8 @@ const longestValidParentheses = function (s) {
         return Math.max(max(), search(s, i + 1));
       } else {
         stack.pop();
-        res.pop();
-        res[res.length - 1] += 2;
+        const t = res.pop();
+        res[res.length - 1] += t + 2;
       }
     }
     return max();
