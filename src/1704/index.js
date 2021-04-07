@@ -3,7 +3,13 @@
  * @return {boolean}
  */
 const halvesAreAlike = function (s) {
-  return true;
+  const half = s.length / 2;
+  // console.log(s.substring(0, half).replace(/[aeiou]/ig, ''));
+  // console.log(s.substring(half).replace(/[aeiou]/ig, ''));
+  return (
+    s.substring(0, half).replace(/[aeiou]/gi, "").length ===
+    s.substring(half).replace(/[aeiou]/gi, "").length
+  );
 };
 
 export default function run(input) {
