@@ -15,7 +15,7 @@ const isAlienSorted = function (words, order) {
   }
   function compare(a, b) {
     for (let j = 0; j < a.length && j < b.length; j++) {
-      const diff = rlt.get(a) - rlt.get(b);
+      const diff = rlt.get(a[j]) - rlt.get(b[j]);
       if (diff < 0) {
         return -1;
       }
