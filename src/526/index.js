@@ -10,28 +10,33 @@ const constructArray = function (n, k) {
   const used = new Set();
   function search(offset, diff) {
     if (offset === n) {
-      return true;
+      return used.size === n;
     }
+    const [low, high] = (() => {
+      return diff > 0 ? [diff, diff] : [1, k];
+    })();
     diff = Math.max(1, diff);
 
-    let next = perm[offset - 1] + diff;
-    if (next <= n && !used.has(next)) {
-      perm[offset] = next;
-      used.add(next);
-      if (search(offset + 1, diff - 1)) {
-        return true;
+    for (let i = low; i <= high; i++) {
+      let next = perm[offset - 1] + i;
+      if (next <= n && !used.has(next)) {
+        perm[offset] = next;
+        used.add(next);
+        if (search(offset + 1, diff - 1)) {
+          return true;
+        }
+        used.delete(next);
       }
-      used.remove(next);
-    }
 
-    next = Math.abs(perm[offset - 1] - diff);
-    if (next <= n) {
-      perm[offset] = next;
-      used.add(next);
-      if (search(offset + 1, diff - 1)) {
-        return true;
+      next = Math.abs(perm[offset - 1] - i);
+      if (next >= 1 && next <= n && !used.has(next)) {
+        perm[offset] = next;
+        used.add(next);
+        if (search(offset + 1, diff - 1)) {
+          return true;
+        }
+        used.delete(next);
       }
-      used.remove(next);
     }
 
     return false;
@@ -42,8 +47,14 @@ const constructArray = function (n, k) {
     if (search(1, k)) {
       break;
     }
-    used.remove(i);
+    used.delete(i);
   }
+  // console.log(perm);
+  // const dd = new Set();
+  // for (let i = 1; i < perm.length; i ++) {
+  //   dd.add(Math.abs(perm[i-1] - perm[i]));
+  // }
+  // console.log(dd.size);
   return perm;
 };
 
