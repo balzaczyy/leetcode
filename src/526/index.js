@@ -6,55 +6,33 @@ import { group } from "../utils.js";
  * @return {number[]}
  */
 const constructArray = function (n, k) {
-  const perm = Array(n);
-  const used = new Set();
-  function search(offset, diff) {
-    if (offset === n) {
-      return used.size === n;
-    }
-    const [low, high] = (() => {
-      return diff > 0 ? [diff, diff] : [1, k];
-    })();
-    diff = Math.max(1, diff);
-
-    for (let i = low; i <= high; i++) {
-      let next = perm[offset - 1] + i;
-      if (next <= n && !used.has(next)) {
-        perm[offset] = next;
-        used.add(next);
-        if (search(offset + 1, diff - 1)) {
-          return true;
-        }
-        used.delete(next);
-      }
-
-      next = Math.abs(perm[offset - 1] - i);
-      if (next >= 1 && next <= n && !used.has(next)) {
-        perm[offset] = next;
-        used.add(next);
-        if (search(offset + 1, diff - 1)) {
-          return true;
-        }
-        used.delete(next);
-      }
-    }
-
-    return false;
+  const perm = [1];
+  let d = k;
+  while (d >= 2) {
+    const last = perm[perm.length - 1];
+    perm.push(last + d);
+    perm.push(last + 1);
+    d -= 2;
   }
-  for (let i = 1; i <= n; i++) {
-    perm[0] = i;
-    used.add(i);
-    if (search(1, k)) {
-      break;
-    }
-    used.delete(i);
+  if (d === 1) {
+    perm.push(perm[perm.length - 1] + 1);
   }
+  if (perm.length < n) {
+    perm.push(k + 2);
+    while (perm.length < n) {
+      perm.push(perm[perm.length - 1] + 1);
+    }
+  }
+
   // console.log(perm);
   // const dd = new Set();
   // for (let i = 1; i < perm.length; i ++) {
   //   dd.add(Math.abs(perm[i-1] - perm[i]));
   // }
   // console.log(dd.size);
+  // if (dd.size !== k) {
+  //   throw new Error('impossible');
+  // }
   return perm;
 };
 
