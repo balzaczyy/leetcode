@@ -29,7 +29,7 @@ const NestedIterator = function (nestedList) {
   do {
     stack.push(0);
     candidates = candidates[0].getList();
-  } while (candidates);
+  } while (candidates && candidates.length > 0);
   this.stack = stack;
 };
 
@@ -70,6 +70,16 @@ NestedIterator.prototype.next = function () {
       this.stack[this.stack.length - 1]++;
     }
   }
+  if (this.stack.length > 0) {
+    let candidates = q[this.stack.length - 1][
+      this.stack[this.stack.length - 1]
+    ].getList();
+    while (candidates && candidates.length > 0) {
+      this.stack.push(0);
+      candidates = candidates[0].getList();
+    }
+  }
+
   return t.getInteger();
 };
 
