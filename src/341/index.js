@@ -68,9 +68,6 @@ NestedIterator.prototype.next = function () {
     items = items[stack[i]].getList();
   }
   const res = items[stack[stack.length - 1]];
-  if (res === undefined) {
-    debugger;
-  }
   this.stack = this.findNext(stack);
   return res.getInteger();
 };
