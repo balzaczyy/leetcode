@@ -1,5 +1,3 @@
-import { group } from "../utils.js";
-
 /**
  * @param {Number|NestedInteger[]}value
  * @constructor
@@ -23,14 +21,28 @@ function NestedInteger(value) {
  */
 const NestedIterator = function (nestedList) {
   this.nestedList = nestedList;
-  // find very first value
-  const stack = [];
-  let candidates = nestedList;
-  do {
-    stack.push(0);
-    candidates = candidates[0].getList();
-  } while (candidates && candidates.length > 0);
-  this.stack = stack;
+  this.findNext = (stack = []) => {
+    if (stack.length > 0) {
+      stack[stack.length - 1]++;
+    }
+    (function search(candidates, offset = 0) {
+      for (let i = stack[offset] || 0; i < candidates.length; i++) {
+        stack[offset] = i;
+        if (candidates[i].isInteger()) {
+          return true;
+        }
+        if (search(candidates[i].getList(), offset + 1)) {
+          return true;
+        }
+      }
+      while (stack.length > offset) {
+        stack.pop();
+      }
+      return false;
+    })(nestedList);
+    return stack;
+  };
+  this.stack = this.findNext();
 };
 
 /**
@@ -38,7 +50,7 @@ const NestedIterator = function (nestedList) {
  * @returns {boolean}
  */
 NestedIterator.prototype.hasNext = function () {
-  return this.stack.length > 0 && this.stack[0] < this.nestedList.length;
+  return this.stack.length > 0;
 };
 
 /**
@@ -46,41 +58,21 @@ NestedIterator.prototype.hasNext = function () {
  * @returns {number}
  */
 NestedIterator.prototype.next = function () {
-  const q = [[...this.nestedList]];
-  /**
-   * @type {NestedInteger}
-   */
-  let t;
-  for (let i = 0; i < this.stack.length; i++) {
-    t = q[q.length - 1][this.stack[i]];
-    const next = t.getList();
-    if (next) {
-      q.push(next);
-    }
-  }
-  // move cursor
-  this.stack[this.stack.length - 1]++;
-  while (
-    this.stack.length > 0 &&
-    this.stack[this.stack.length - 1] === q[this.stack.length - 1].length
-  ) {
-    this.stack.pop();
-    q.pop();
-    if (this.stack.length > 0) {
-      this.stack[this.stack.length - 1]++;
-    }
-  }
-  if (this.stack.length > 0) {
-    let candidates = q[this.stack.length - 1][
-      this.stack[this.stack.length - 1]
-    ].getList();
-    while (candidates && candidates.length > 0) {
-      this.stack.push(0);
-      candidates = candidates[0].getList();
-    }
+  const stack = this.stack;
+  if (stack.length === 0) {
+    throw new Error("impossible");
   }
 
-  return t.getInteger();
+  let items = this.nestedList;
+  for (let i = 0; i < stack.length - 1; i++) {
+    items = items[stack[i]].getList();
+  }
+  const res = items[stack[stack.length - 1]];
+  if (res === undefined) {
+    debugger;
+  }
+  this.stack = this.findNext(stack);
+  return res.getInteger();
 };
 
 /**
