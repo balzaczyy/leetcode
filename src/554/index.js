@@ -12,10 +12,16 @@ const leastBricks = function (wall) {
   let count = wall.reduce((acc, cur) => acc + cur.length, 0);
   while (count > 0) {
     plan.sort((a, b) => a[1] - b[1]);
-    const score = plan.findIndex((v) => v[1] !== plan[0][1]);
+    let score = plan.findIndex((v) => v[1] !== plan[0][1]);
+    if (score <= 0) {
+      score = height;
+    }
     if (score > ans) {
       ans = score;
       // console.log(score, plan);
+      if (score === height) {
+        break;
+      }
     }
     for (let i = 0; i < score; i++) {
       plan[i][1] += wall[plan[i][0]].shift();
