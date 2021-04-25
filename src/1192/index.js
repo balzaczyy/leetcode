@@ -32,7 +32,11 @@ const criticalConnections = function (n, connections) {
       if (visited.has(target)) {
         if (visited.get(cur.id) - visited.get(target) > 1) {
           // loop detected
-          cur.back = target;
+          if (cur.back === undefined) {
+            cur.back = target;
+          } else if (visited.get(target) < visited.get(cur.back)) {
+            cur.back = target;
+          }
         } // else ignore
       } else {
         q.push({ id: target });
@@ -43,7 +47,7 @@ const criticalConnections = function (n, connections) {
       if (q.length > 0) {
         if (cur.back === undefined) {
           ans.push([q[q.length - 1].id, cur.id]);
-        } else if (cur.back !== id) {
+        } else if (cur.back !== q[q.length - 1].id) {
           q[q.length - 1].back = cur.back;
         }
       }
