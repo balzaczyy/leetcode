@@ -7,7 +7,31 @@ import { group } from "../utils.js";
  * @return {number[]}
  */
 const powerfulIntegers = function (x, y, bound) {
-  return [];
+  if (x > y) {
+    return powerfulIntegers(y, x, bound);
+  }
+  const yc = new Set();
+  for (let i = 1; i <= bound; i *= y) {
+    yc.add(i);
+    if (y === 1) {
+      break;
+    }
+  }
+  const ans = [];
+  for (let i = 2; i <= bound; i++) {
+    for (let j = 1; j < i; j *= x) {
+      const rem = i - j;
+      if (yc.has(rem)) {
+        ans.push(i);
+        // console.log(i, '=', j, '+', rem);
+        break;
+      }
+      if (x === 1) {
+        break;
+      }
+    }
+  }
+  return ans;
 };
 
 export default function run(input) {
