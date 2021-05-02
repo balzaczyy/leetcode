@@ -9,7 +9,7 @@ import { group } from "../utils.js";
 const furthestBuilding = function (heights, bricks, ladders) {
   function bicert(arr, value, start = 0, end = arr.length) {
     while (start < end) {
-      if (value < arr[start]) {
+      if (value <= arr[start]) {
         arr.splice(start, 0, value);
         return;
       } else if (value > arr[end - 1]) {
@@ -23,9 +23,14 @@ const furthestBuilding = function (heights, bricks, ladders) {
         } else if (arr[mid] < value) {
           start = mid + 1;
         } else {
-          end = mid - 1;
+          end = mid;
         }
       }
+    }
+    if (value <= arr[start]) {
+      arr.splice(start, 0, value);
+    } else if (value > arr[end - 1]) {
+      arr.splice(end, 0, value);
     }
   }
   let cuts = [],
