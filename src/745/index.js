@@ -61,7 +61,7 @@ const WordFilter = function (words) {
  */
 WordFilter.prototype.f = function (prefix, suffix) {
   const a = this.lookup(this.prefixTable, prefix);
-  const b = this.lookup(this.suffixTable, suffix);
+  const b = this.lookup(this.suffixTable, suffix.split("").reverse().join(""));
   let i = a.length - 1,
     j = b.length - 1;
   while (i >= 0 && j >= 0) {
