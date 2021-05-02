@@ -42,12 +42,15 @@ const WordFilter = function (words) {
     let t = table;
     for (let i = 0; i < keyword.length && t; i++) {
       if (!t || !t.next) {
+        return [];
+      }
+      if (!t || !t.next) {
         break;
       }
       const n = keyword.charCodeAt(i) - base;
       t = t.next[n];
     }
-    return !t || !t.next ? [] : t.list;
+    return t ? t.list : [];
   };
 };
 
