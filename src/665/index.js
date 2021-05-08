@@ -3,15 +3,22 @@
  * @return {boolean}
  */
 const checkPossibility = function (nums) {
-  if (nums.length === 1) {
+  if (nums.length <= 2) {
     return true;
   }
-  let count = 0,
-    water = Math.min(nums[0], nums[1]);
+
+  let count = 0;
+  let water = Math.min(nums[0], nums[1]);
   for (let i = 0; i < nums.length - 1; i++) {
-    const diff = nums[i] - nums[i + 1];
-    if (diff > 0) {
-      if (nums[i + 1] < water) {
+    if (nums[i] > nums[i + 1]) {
+      if (water <= nums[i + 1]) {
+        // remove element i
+      } else if (i + 1 === nums.length - 1) {
+        // remove last element
+      } else if (nums[i] <= nums[i + 2]) {
+        // remove element i+1
+        water = nums[i];
+      } else {
         return false;
       }
       count++;
