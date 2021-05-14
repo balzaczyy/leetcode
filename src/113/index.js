@@ -14,36 +14,21 @@ import { arrayToTree, treeToArray } from "../897/index.js";
  * @return {void} Do not return anything, modify root in-place instead.
  */
 const flatten = function (root) {
-  if (root === null || (root.left === null && root.right === null)) {
-    return;
-  }
-  flatten(root.left);
-  flatten(root.right);
-  if (root.left === null) {
-    return;
-  }
-  function merge(a, b) {
-    if (a.val <= b.val) {
-      if (a.right === null) {
-        a.right = b;
-      } else {
-        merge(a.right, b);
-      }
-    } else {
-      const t = a.val;
-      a.val = b.val;
-      b.val = t;
-      const next = b.right;
-      b.right = a.right;
-      a.right = b;
-      if (next !== null) {
-        merge(a.right, next);
-      }
+  function _flatten(root) {
+    if (root === null || (root.left === null && root.right === null)) {
+      return root;
     }
+    const leftTail = _flatten(root.left);
+    const rightTail = _flatten(root.right);
+    if (leftTail === null) {
+      return rightTail;
+    }
+    leftTail.right = root.right;
+    root.right = root.left;
+    root.left = null;
+    return rightTail === null ? leftTail : rightTail;
   }
-  const left = root.left;
-  root.left = null;
-  merge(root, left);
+  _flatten(root);
 };
 
 export default function run(input) {
