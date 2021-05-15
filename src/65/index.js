@@ -1,10 +1,9 @@
-const re = /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/;
-
 /**
  * @param {string} s
  * @return {boolean}
  */
 const isNumber = function (s) {
+  const re = /^[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?$/;
   return re.test(s);
 };
 
