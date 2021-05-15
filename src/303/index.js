@@ -26,7 +26,7 @@ const NumMatrix = function (matrix) {
     }
   }
   this.sum = s;
-  console.log(s);
+  // console.log(s);
 };
 
 /**
@@ -42,18 +42,12 @@ NumMatrix.prototype.sumRegion = function (row1, col1, row2, col2) {
     if (col1 === 0) {
       return s[row2][col2];
     } else {
-      return s[row2][col2] - s[row1][col1 - 1];
+      return s[row2][col2] - s[row2][col1 - 1];
     }
   } else {
     if (col1 === 0) {
-      return s[row2][col2] - s[row1 - 1][col1];
+      return s[row2][col2] - s[row1 - 1][col2];
     } else {
-      console.log(
-        s[row2][col2],
-        s[row2][col1 - 1],
-        s[row1 - 1][col2],
-        s[row1 - 1][col1 - 1]
-      );
       return (
         s[row2][col2] -
         s[row2][col1 - 1] -
