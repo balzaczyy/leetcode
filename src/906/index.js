@@ -26,13 +26,14 @@ const superPalindromesInRange = function (left, right) {
   const low = Number(left);
   const high = Number(right);
   const a = Math.sqrt(low);
+  const limit = Math.sqrt(high);
   let n;
   if (a === Math.floor(a)) {
     n = String(a).split("").map(Number);
   } else {
     n = String(Math.ceil(a)).split("").map(Number);
   }
-  const limit = Math.sqrt(high);
+
   let ans = 0;
   do {
     const num = toNum(n);
@@ -41,7 +42,7 @@ const superPalindromesInRange = function (left, right) {
     }
     const target = num * num;
     if (isPalindromeNumber(target)) {
-      // console.log(num, target);
+      console.log(num, target);
       ans++;
     } else {
       let next = String(target).split("").map(Number);
@@ -54,11 +55,14 @@ const superPalindromesInRange = function (left, right) {
       if (da === Math.floor(da)) {
         n = String(da).split("").map(Number);
         if (isPalindromeNumber(da)) {
-          // console.log(da, d);
+          console.log(da, d);
           ans++;
         }
       } else {
         n = String(Math.ceil(da)).split("").map(Number);
+        if (isPalindromeNumber(Math.ceil(da))) {
+          continue;
+        }
       }
     }
     n = generateNextPalindrome(n, n.length);
