@@ -41,7 +41,25 @@ const superPalindromesInRange = function (left, right) {
     }
     const target = num * num;
     if (isPalindromeNumber(target)) {
+      // console.log(num, target);
       ans++;
+    } else {
+      let next = String(target).split("").map(Number);
+      next = generateNextPalindrome(next, next.length);
+      const d = toNum(next);
+      if (d > high) {
+        break;
+      }
+      const da = Math.sqrt(d);
+      if (da === Math.floor(da)) {
+        n = String(da).split("").map(Number);
+        if (isPalindromeNumber(da)) {
+          // console.log(da, d);
+          ans++;
+        }
+      } else {
+        n = String(Math.ceil(da)).split("").map(Number);
+      }
     }
     n = generateNextPalindrome(n, n.length);
   } while (true);
