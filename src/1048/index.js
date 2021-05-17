@@ -25,6 +25,8 @@ const longestStrChain = function (words) {
     for (let j = 0; j < i; j++) {
       if (pre(words[j], words[i])) {
         ans[i] = Math.max(ans[i], ans[j] + 1);
+      } else {
+        ans[i] = ans[j];
       }
     }
   }
