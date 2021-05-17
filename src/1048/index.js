@@ -26,10 +26,12 @@ const longestStrChain = function (words) {
       if (pre(words[j], words[i])) {
         ans[i] = Math.max(ans[i], ans[j] + 1);
       } else {
-        ans[i] = ans[j];
+        ans[i] = Math.max(ans[i], ans[j]);
       }
     }
   }
+  console.log(words);
+  console.log(ans);
   return ans[words.length - 1];
 };
 
