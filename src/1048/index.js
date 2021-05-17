@@ -20,19 +20,19 @@ const longestStrChain = function (words) {
     return j - i <= 1;
   }
   words.sort((a, b) => a.length - b.length);
+  let res = 0;
   const ans = Array(words.length).fill(1);
   for (let i = 0; i < words.length; i++) {
     for (let j = 0; j < i; j++) {
       if (pre(words[j], words[i])) {
         ans[i] = Math.max(ans[i], ans[j] + 1);
-      } else {
-        ans[i] = Math.max(ans[i], ans[j]);
       }
     }
+    res = Math.max(res, ans[i]);
   }
-  console.log(words);
-  console.log(ans);
-  return ans[words.length - 1];
+  // console.log(words);
+  // console.log(ans);
+  return res;
 };
 
 export default function run(input) {
