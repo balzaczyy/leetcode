@@ -51,32 +51,20 @@ const maxResult = function (nums, k) {
     return ret;
   }
 
-  // push(1);
-  // push(2)
-  // push(3);
-  // console.log(pop(), pop(), pop());
-  // throw "done";
-
-  const txStart = Date.now();
-  let tick = 0;
-
   push([0, nums[0]]);
   for (let i = 1; i < nums.length; i++) {
-    let count = 0;
+    // let count = 0;
     while (i - heap[0][0] > k) {
       pop();
-      count++;
+      // count++;
     }
-    if (count > 0) {
-      console.log("removed", count, "elements");
-    }
+    // if (count > 0) {
+    //   console.log("removed", count, "elements");
+    // }
 
-    const sortStart = Date.now();
     push([i, heap[0][1] + nums[i]]);
-    tick += Date.now() - sortStart;
   }
-  console.log(Date.now() - txStart, tick);
-  return heap[0][1];
+  return heap.find((v) => v[0] === nums.length - 1)[1];
 };
 
 export default function run(input) {
